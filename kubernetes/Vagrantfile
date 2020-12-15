@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
+ENV["LC_ALL"] = "en_US.UTF-8"
+
+Vagrant.configure("2") do |config|
+   config.vm.box = "ubuntu/bionic64"
+   config.vm.hostname = "k8s-master"
+   config.vm.network "public_network", ip: "192.168.178.201", hostname: true
+   #config.vm.base_mac = "0800278A8081"
+   config.vm.synced_folder ".", "/vagrant"
+
+   config.disksize.size = '30GB'
+# --------------------------------------------------------------------
+   config.vm.provider "virtualbox" do |vb|
+      vb.gui = false
+	  vb.name = "K8S-DEV"
+	  vb.cpus = 2
+	  vb.memory = 8000
+   end
+# --------------------------------------------------------------------
+end

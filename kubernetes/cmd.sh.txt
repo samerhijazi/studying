@@ -1,0 +1,13 @@
+kind create cluster --name wslkindmultinodes --config ./kind-nodes.yaml
+---
+kubectl describe nodes | grep -i taint
+kubectl taint nodes --all node-role.kubernetes.io/master-
+---
+kubectl api-resources
+kubectl get ep,ns,no,pvc,pv,svc,deploy,rs
+---
+kubectl crete ns samer
+kubectl config set-context --current --namespace=samer
+---
+
+kubectl api-resources
