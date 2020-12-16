@@ -1,11 +1,14 @@
-# Kubernetes
-* Setup: alias k=kubectl; KUBE_EDITOR="nano"
+# Kubernetes-Subjects
+* Setup: alias k=kubectl; KUBE_EDITOR="nano"; Autocomplation
 * Cluster: 
-* Pod: Basic, Port, Storage, Label, Selector
-* Service
-* Deployment
+* Pod: Label, Port, NodeSelector, Volumes, Secret, Variables, Arguments, CPU, RAM, Logs, Expose
+* Service: selector, port-forward, nodeport
+* Deployment: selector:matchLabels, Scale, Rollout 
 * ConfigMap
 * Label & Selector
-* Secrets
+* Secrets: Pod, Volumes
 * Job & ConJob
-* Storage/Volume: emptyDir, hostPath, nfs, PV, PVC
+* Volume: emptyDir, hostPath, nfs, PV, PVC
+* NetworkPolicy: 
+* ServiceAccounts: ClusterRole >>> RoleBinding >> Pod
+* ConfigMap: 

@@ -1,6 +1,8 @@
+### Source: https://kubernetesbyexample.com/
 ------------------------------------------------------------------------
 ## exec
-kubectl exec -it consumesec -c shell -- bash
+kubectl exec -it POD-NAME -c shell -- bash
+kubectl exec -it POD-NAME -- /bin/sh
 
 ------------------------------------------------------------------------
 ### kind
@@ -72,6 +74,7 @@ tbd
 # Secrets
 kubectl create secret generic apikey --from-file=./apikey.txt
 POD:
+spc:
   volumes:
   - name: apikeyvol
     secret:

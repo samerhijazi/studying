@@ -11,5 +11,13 @@ spec:
     env:
     - name: SIMPLE_SERVICE_VERSION
       value: "1.0"
+    volumeMounts:
+      - name: apikeyvol
+        mountPath: "tmp/apikey"
+        readOnly: true
   nodeSelector:
     shouldrun: here
+  volumes:
+  - name: apikeyvol
+    secret:
+      secretName: apikey
