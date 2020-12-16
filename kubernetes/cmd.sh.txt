@@ -1,13 +1,112 @@
-kind create cluster --name wslkindmultinodes --config ./kind-nodes.yaml
----
+------------------------------------------------------------------------
+## exec
+kubectl exec -it consumesec -c shell -- bash
+
+------------------------------------------------------------------------
+### kind
+kind create cluster --name k8s
+kind get clusters
+kubectl cluster-info --context kind-kind
+kind delete cluster --name k8s
+kind create cluster --name k8s --config ./kind-cfg.yaml
+
+------------------------------------------------------------------------
+### Pods
+POD:
+  spec:
+    nodeSelector:
+	  shouldrun: here
+
+------------------------------------------------------------------------
+### Labels
+metadata:
+      labels:
+        key: value
+
+------------------------------------------------------------------------
+### Deployments
+DEPLOY:
+  spec:    
+    selector:
+       matchLabels:
+         app: sise
+
+------------------------------------------------------------------------
+### Services & ReplicationController
+SVC:
+  spec:
+    selector:
+      app: sise
+kubectl exec -it jumpod -c shell -- ping thesvc.default.svc.cluster.local
+kubectl exec -it jumpod -c shell -- curl http://thesvc/info
+kubectl exec -it jumpod -c shell -- curl http://thesvc.other/info
+
+------------------------------------------------------------------------
+### Service Discovery
+tbd
+
+------------------------------------------------------------------------
+# Port Forward
+kubectl port-forward service/simpleservice 8080:80
+
+------------------------------------------------------------------------
+### Health Checks
+tbd
+
+------------------------------------------------------------------------
+# Environment Variables
+kubectl exec envs -t -- curl -s 127.0.0.1:9876/env
+
+------------------------------------------------------------------------
+### Namespaces
+kubectl crete ns samer
+kubectl get ns
+kubectl config set-context --current --namespace=samer
+kubectl apply --namespace=test -f ...
+kubectl get pods --namespace=test
+
+------------------------------------------------------------------------
+### Volumes
+tbd
+------------------------------------------------------------------------
+# Secrets
+kubectl create secret generic apikey --from-file=./apikey.txt
+POD:
+  volumes:
+  - name: apikeyvol
+    secret:
+      secretName: apikey
+
+------------------------------------------------------------------------
+# Logging
+tbd
+
+------------------------------------------------------------------------
+# Jobs
+tbd
+
+------------------------------------------------------------------------
+# StatefulSet
+tbd
+
+------------------------------------------------------------------------
+# init containers
+tbd
+
+------------------------------------------------------------------------
+# Nodes
+kubectl get nodes
 kubectl describe nodes | grep -i taint
 kubectl taint nodes --all node-role.kubernetes.io/master-
----
+POD:
+  nodeSelector:
+	shouldrun: here
+    
+------------------------------------------------------------------------
+# API Server access
+kubectl proxy --port=8080
+kubectl get --raw /api/v1
+kubectl api-versions
 kubectl api-resources
 kubectl get ep,ns,no,pvc,pv,svc,deploy,rs
----
-kubectl crete ns samer
-kubectl config set-context --current --namespace=samer
----
 
-kubectl api-resources

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-full
+spec:
+  containers:
+  - name: pod-full
+    image: quay.io/openshiftlabs/simpleservice:0.5.0
+    ports:
+    - containerPort: 9876
+    env:
+    - name: SIMPLE_SERVICE_VERSION
+      value: "1.0"
+  nodeSelector:
+    shouldrun: here
