@@ -2,7 +2,10 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pod-basic
+  namespace: samer
+  labels: 
+    app: sise
 spec:
   containers:
   - name: pod-basic
-    image: nginx:mainline-alpine
+    image: nginx

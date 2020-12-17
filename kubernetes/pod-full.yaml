@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pod-full
+  namespace: samer
 spec:
   containers:
   - name: pod-full

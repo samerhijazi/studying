@@ -3,13 +3,21 @@
 ## exec
 kubectl exec -it POD-NAME -c shell -- bash
 kubectl exec -it POD-NAME -- /bin/sh
+------------------------------------------------------------------------
+kubectl create ns samer
+kubectl -n samer get all
+kubectl -n samer create deployment app --image=nginx
+kubectl -n samer expose deployment app --name=app-svc --type=NodePort --port=80
+kubectl -n samer apply -f ./dnsutils.yaml
+kubectl -n samer exec -it dnsutils -- /bin/sh
+nslookup app-svc
 
 ------------------------------------------------------------------------
 ### kind
-kind create cluster --name k8s
-kind get clusters
 kubectl cluster-info --context kind-kind
+kind get clusters
 kind delete cluster --name k8s
+kind create cluster --name k8s
 kind create cluster --name k8s --config ./kind-cfg.yaml
 
 ------------------------------------------------------------------------

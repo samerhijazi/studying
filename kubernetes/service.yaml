@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-full
+  namespace: samer
+  labels:
+    run: my-nginx
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    nodePort: 32000
+    # targetPort: 9876
+  type: NodePort
+  selector:
+    app: sise
