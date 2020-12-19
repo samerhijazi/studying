@@ -1,0 +1,56 @@
+### Source: 
+https://kubernetesbyexample.com/
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+## exec
+kubectl exec -it POD-NAME -- /bin/sh
+kubectl exec -it POD-NAME -- /bin/bash
+kubectl exec -it POD-NAME -c CONTAINER-NAME -- bash
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+### kind
+kind get clusters
+kind delete cluster --name k8s
+kind create cluster --name k8s
+kind create cluster --name k8s --image kindest/node:latest
+kind create cluster --name k8s --config ./kind-cfg.yaml
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+kubectl cluster-info --context kind-k8s
+kubectl create ns samer
+kubectl config set-context --current --namespace=samer
+kubectl config set-context --current --namespace=default
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+kubectl -n samer get all
+kubectl -n samer create deployment app --image=nginx
+kubectl -n samer expose deployment app --name=app-svc --type=NodePort --port=80
+kubectl -n samer apply -f ./dnsutils.yaml
+kubectl -n samer exec -it dnsutils -- /bin/sh
+nslookup app-svc
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+kubectl port-forward pods/NAME 7000:6379
+kubectl port-forward deployment/NAME 7000:6379
+kubectl port-forward replicaset/NAME 7000:6379
+kubectl port-forward service/NAME_DEPLOYMENT 7000:6379
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+kubectl get jobs --watch
+kubectl create deployment deploy-test --image=nginx --namespace=samer --port=1234
+kubectl create deployment deploy-test --image=vish/stress
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+serviceaccounts
+clusterrole
+rolebinding
+deployment >> serviceaccounts
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+
+# API Server access
+kubectl proxy --port=8080
+kubectl get --raw /api/v1
+kubectl api-versions
+kubectl api-resources
+kubectl get ep,ns,no,pvc,pv,svc,deploy,rs

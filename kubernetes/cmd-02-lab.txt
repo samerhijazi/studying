@@ -1,3 +1,0 @@
-### Source: Lab-Linux
-
-ServiceAccounts

@@ -6,11 +6,21 @@ metadata:
   labels:
     run: my-nginx
 spec:
-  ports:
-  - port: 80
-    protocol: TCP
-    nodePort: 32000
-    # targetPort: 9876
-  type: NodePort
+  type: NodePort # Type: ClusterIP, NodePort, LoadBalancer
+  #clusterIP: 10.0.171.239
+  #externalIPs:
+  #- 80.11.12.10
   selector:
     app: sise
+  ports:
+  - name: Name-TCP
+    protocol: TCP
+    port: 80    
+    targetPort: 9876
+    #nodePort: 32000    
+  - name: Name-HTTP
+    protocol: TCP
+    port: 443    
+    targetPort: 9877
+    #nodePort: 32000
+    

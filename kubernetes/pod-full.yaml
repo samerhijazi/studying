@@ -4,21 +4,46 @@ metadata:
   name: pod-full
   namespace: samer
 spec:
+  nodeSelector:
+    shouldrun: here
   containers:
   - name: pod-full
     image: quay.io/openshiftlabs/simpleservice:0.5.0
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
     ports:
     - containerPort: 9876
+    - containerPort: 80
+    - port: 80
+      protocol: TCP
     env:
     - name: SIMPLE_SERVICE_VERSION
       value: "1.0"
+    - name: MESSAGE
+      value: "hello world"
+    
+    command: ["/bin/echo"]
+    args: ["$(MESSAGE)"]    
     volumeMounts:
-      - name: apikeyvol
-        mountPath: "tmp/apikey"
-        readOnly: true
-  nodeSelector:
-    shouldrun: here
+    - name: vol-secret
+      mountPath: "tmp/apikey"
+      readOnly: true
+# --------------------------------------------------------  
   volumes:
-  - name: apikeyvol
+  - name: vol-emptydir
+    emptyDir: {}
+  - name: vol-hostpath
+    hostPath:
+      path: "/name-hostpath"
+  - name: vol-secret
     secret:
-      secretName: apikey
+      secretName: namme-secret
+  - name: vol-configmap
+    configMap:
+      name: name-configmap
+  - name: vol-pvc
+    persistentVolumeClaim:
+      claimName: name-pvc
+# --------------------------------------------------------      

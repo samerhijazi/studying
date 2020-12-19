@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sleepy
+spec:
+  # backoffLimit: 5
+  # activeDeadlineSeconds: 10
+  # parallelism: 2
+  # completions: 5 
+  template:
+    metadata:
+      name: sleepy
+    spec:     
+      containers:
+      - name: resting
+        image: busybox
+        # command: ["/bin/echo", "samer"]     
+        # command: ["/bin/sleep", "3"]
+        command:
+        - "bin/sh"
+        - "-c"
+        - "for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; done"
+        command:
+        - "/bin/sh"
+        - "echo samer"
+      restartPolicy: Never

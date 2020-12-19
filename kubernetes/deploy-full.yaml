@@ -1,12 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pv-deploy
+  name: deploy-full
+  labels:
+    app: redis
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: mypv
+    matchLabels:     
+      app: redis
+      role: master
+      tier: backend
   template:
     metadata:
       labels:
