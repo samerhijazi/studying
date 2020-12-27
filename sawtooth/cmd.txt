@@ -1,0 +1,14 @@
+curl --version
+git --version
+docker-compose -v
+docker -v
+python --version
+#########################################################################################
+curl https://lfx-start1.s3.us-east-2.amazonaws.com/lfx273/docker-sawtooth-start.yml -o ./sawtooth-start.yml
+echo "export SAWTOOTH_START=./sawtooth-start.yml" >> ~/.profile
+#########################################################################################
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8AA7AF1F1091A5FD
+sudo add-apt-repository 'deb [arch=amd64] http://repo.sawtooth.me/ubuntu/bumper/stable xenial universe'
+sudo apt-get update
+sudo apt-get install -y sawtooth python3-sawtooth-poet-engine
+#########################################################################################
