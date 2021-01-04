@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: deployment-template
+labels:
+  template: deployment-template
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: zgv-angapp
+    name: zgv-angapp
+  spec:
+    replicas: 1
+    selector:
+      app: zgv-angapp
+    template:
+      metadata:
+        labels:
+          app: zgv-angapp
+      spec:
+        containers:
+        - name: zgv-angapp
+          image: docker-registry.default.svc:5000/${NAMESPACE}/zgv-angapp:${VERSION}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080            
+              protocol: TCP
+              name: web
+          resources:
+            requests:
+              memory: "800Mi"
+              cpu: "500m"
+            limits:
+              memory: "800Mi"
+              cpu: "1"
+          env:
+            - name: CSS_BACKGROUND
+              value: ${PARAM_CSSBG}
+          readinessProbe:
+            httpGet:
+              path: /api/actuator/health
+              port: 8080
+            initialDelaySeconds: 3
+            timeoutSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: /api/actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: zgv-angapp
+    name: zgv-angapp
+  spec:
+    selector:
+      app: zgv-angapp
+    ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      name: http
+- apiVersion: v1
+  kind: Route
+  metadata:
+    labels:
+      app: zgv-angapp
+    name: zgv-angapp
+  spec:
+    host: ${NAMESPACE}.test-ekad-caas1.rz.bankenit.de
+    path: /api
+    to:
+      kind: Service
+      name: zgv-angapp
+    tls:
+      termination: edge
+
+parameters:
+  - name: NAMESPACE
+    description: Name of the namespace or k8s project
+    value: zgv
+  - name: VERSION
+    description: version of our application
+    value: 1.0
+  - name: DATAPATH
+    description: data path of the persistent file, /tmp if not set
+    required: false
+  - name: AESPASSWORD
+    description: password for password based encryption feature toggle
+    required: false
