@@ -1,0 +1,122 @@
+################################################################################
+#   SECTION: Organizations
+################################################################################
+Organizations:
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+        MSPDir: configca/ordererOrganizations/example.com/msp
+    - &Org1
+        Name: Org1MSP
+        ID: Org1MSP
+        MSPDir: configca/peerOrganizations/org1.example.com/msp
+        AnchorPeers:
+            - Host: peer1.org1.example.com
+              Port: 7051
+    - &Org2
+        Name: Org2MSP
+        ID: Org2MSP
+        MSPDir: configca/peerOrganizations/org2.example.com/msp
+        AnchorPeers:
+            - Host: peer0.org2.example.com
+              Port: 7051
+#    - &Org3
+#        Name: Org3MSP
+#        ID: Org3MSP
+#        MSPDir: crypto-config/peerOrganizations/org3.example.com/msp
+#        Policies:
+#            Readers:
+#                Type: Signature
+#                Rule: "OR('Org3MSP.admin', 'Org3MSP.peer', 'Org3MSP.client')"
+#            Writers:
+#                Type: Signature
+#                Rule: "OR('Org3MSP.admin', 'Org3MSP.client')"
+#            Admins:
+#                Type: Signature
+#                Rule: "OR('Org3MSP.admin')"
+#        AnchorPeers:
+#            - Host: peer0.org3.example.com
+#              Port: 7051
+################################################################################
+#   SECTION: Capabilities
+################################################################################
+#Capabilities:
+#    Channel: &ChannelCapabilities
+#        V1_3: true 
+#    Orderer: &OrdererCapabilities
+#        V1_1: true
+#    Application: &ApplicationCapabilities
+#        V1_3: true 
+#        V1_2: false
+#        V1_1: false  
+################################################################################
+#   SECTION: Application
+################################################################################
+Application: &ApplicationDefaults
+    Organizations:
+#    Policies:
+#        Readers:
+#            Type: ImplicitMeta
+#            Rule: "ANY Readers"
+#        Writers:
+#            Type: ImplicitMeta
+#            Rule: "ANY Writers"
+#        Admins:
+#            Type: ImplicitMeta
+#            Rule: "MAJORITY Admins"
+#    Capabilities:
+#        <<: *ApplicationCapabilities
+################################################################################
+#   SECTION: Orderer
+################################################################################
+Orderer: &OrdererDefaults
+    OrdererType: solo
+    Addresses:
+        - orderer.example.com:7050
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+    Kafka:
+        Brokers:
+            - 127.0.0.1:9092
+    Organizations:
+################################################################################
+#   SECTION: Profile
+################################################################################
+Profiles:
+    Genesis:
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *Org1
+    Org1Channel1:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org1
+    Org1Channel2:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org1
+    Org2Channel1:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org2
+    AllAreWelcomeTwo:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org1
+                - *Org2            			
