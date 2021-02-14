@@ -1,6 +1,10 @@
+# Bootstrap-Base
+* https://github.com/hyperledger/fabric         # /bin/ && /config/
+* https://github.com/hyperledger/fabric-ca      # /bin/fabric-ca-client && /bin/fabric-ca-server
+
 # Life-Cycle
 - Install Fabric-Bootstrap
-- Install My-Project-Configurations
+- Install Project-Configurations
 - Install Startup
 
 # Code
