@@ -3,3 +3,4 @@ fabric-samples*
 ./fabric/
 */configca
 */configtx
+*/configcr
