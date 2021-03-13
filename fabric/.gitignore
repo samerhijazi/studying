@@ -1,5 +1,5 @@
 fabric-samples*
 *.vagrant
 ./fabric/
-*configca
-*configtx
+*/configca
+*/configtx
